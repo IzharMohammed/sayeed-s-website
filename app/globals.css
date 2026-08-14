@@ -354,6 +354,77 @@ a {
   align-items: center;
   margin-left: auto;
 }
+.install-app {
+  position: relative;
+}
+.install-help {
+  position: absolute;
+  top: calc(100% + 10px);
+  right: 0;
+  width: 245px;
+  padding: 12px;
+  border: 1px solid var(--line);
+  border-radius: 11px;
+  background: var(--surface);
+  box-shadow: var(--shadow);
+  color: var(--muted);
+  font-size: 13px;
+  line-height: 1.45;
+  display: flex;
+  align-items: flex-start;
+  gap: 9px;
+}
+.install-help svg {
+  flex: none;
+  color: var(--brand);
+}
+.offline-banner {
+  position: fixed;
+  top: 0;
+  left: 50%;
+  z-index: 100;
+  transform: translateX(-50%);
+  width: min(100% - 24px, 680px);
+  padding: 10px 14px;
+  border-radius: 0 0 11px 11px;
+  background: #7a4b00;
+  color: #ffffff;
+  box-shadow: var(--shadow);
+  text-align: center;
+  font-size: 13px;
+  font-weight: 650;
+}
+.offline-page {
+  min-height: 100vh;
+  padding: 32px;
+  display: grid;
+  place-content: center;
+  gap: 28px;
+}
+.offline-page > .brand-mark {
+  justify-content: center;
+}
+.offline-card {
+  width: min(100%, 430px);
+  padding: 38px;
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  background: var(--surface);
+  box-shadow: var(--shadow);
+  text-align: center;
+}
+.offline-card > svg {
+  color: var(--brand);
+}
+.offline-card h1 {
+  margin: 17px 0 8px;
+  font-size: 26px;
+}
+.offline-card p {
+  margin: 0 0 24px;
+  color: var(--muted);
+  line-height: 1.55;
+}
 .icon-button {
   width: 40px;
   height: 40px;
@@ -854,6 +925,19 @@ a {
   }
   .topbar .button-primary {
     display: none;
+  }
+  .install-label {
+    display: none;
+  }
+  .install-app .button {
+    width: 40px;
+    min-height: 40px;
+    padding: 0;
+  }
+  .install-help {
+    position: fixed;
+    top: 70px;
+    right: 12px;
   }
   .content {
     padding: 22px 15px 90px;

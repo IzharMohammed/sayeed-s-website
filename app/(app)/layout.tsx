@@ -3,6 +3,7 @@ import { redirect } from "next/navigation";
 import Link from "next/link";
 import { logoutAction } from "@/app/actions/auth";
 import { Navigation } from "@/components/nav";
+import { InstallAppButton } from "@/components/install-app-button";
 import { SubmitButton } from "@/components/submit-button";
 import { ThemeToggle } from "@/components/theme-toggle";
 import { getCurrentUser } from "@/lib/auth";
@@ -54,6 +55,7 @@ export default async function AppLayout({ children }: { children: React.ReactNod
             Karigar
           </Link>
           <div className="topbar-actions">
+            <InstallAppButton />
             {!worker && !platformAdmin && (
               <Link href="/orders/new" className="button button-primary button-small">
                 <Plus size={16} /> New order

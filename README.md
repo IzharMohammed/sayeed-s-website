@@ -10,6 +10,7 @@ It replaces a paper register or spreadsheet with simple owner and worker screens
 - Database-backed username/password sessions
 - Cloudflare R2 for private work images
 - Plain responsive CSS with light and dark themes
+- Installable Progressive Web App (PWA) with a safe offline fallback
 - Prettier and ESLint for consistent code quality
 
 ## Access model
@@ -68,6 +69,22 @@ Password: the password created at /setup
 
 From `/admin`, create a customer shop, its shop code, and its first Owner. That Owner signs in using
 the shop code and can create more Owners and Workers.
+
+The Platform Administrator should remain your private account. Do not give it to a customer. Give
+the customer the shop code, Owner username, and temporary password created on `/admin`; the Owner
+must choose a new password on first login.
+
+## Install on a phone
+
+The production website can be installed from the browser and opened from the phone's home screen.
+On Android, use the **Install app** button when it appears. On iPhone, tap **Share**, then **Add to
+Home Screen**. Installation requires HTTPS, which is provided automatically by hosts such as
+Vercel.
+
+The first PWA version provides installation, an internet-status warning, and an offline fallback
+page. Order changes and image uploads intentionally require internet so workshop data cannot be
+silently overwritten or duplicated. To test the service worker locally, use `pnpm build` followed
+by `pnpm start`; it is not registered during development.
 
 ## 3. Configure Cloudflare R2 images
 
