@@ -2,6 +2,7 @@ import { asc, eq } from "drizzle-orm";
 import { UserPlus, UsersRound } from "lucide-react";
 import { createMemberAction, toggleMemberAction } from "@/app/actions/team";
 import { StatusBadge } from "@/components/status-badge";
+import { SubmitButton } from "@/components/submit-button";
 import { requireOwner } from "@/lib/auth";
 import { label } from "@/lib/constants";
 import { db } from "@/lib/db";
@@ -79,11 +80,12 @@ export default async function TeamPage({
                       {member.id !== actor.id ? (
                         <form action={toggleMemberAction}>
                           <input type="hidden" name="userId" value={member.id} />
-                          <button
+                          <SubmitButton
                             className={`button button-small ${member.active ? "button-danger" : "button-secondary"}`}
+                            pendingLabel={member.active ? "Disabling…" : "Enabling…"}
                           >
                             {member.active ? "Disable" : "Enable"}
-                          </button>
+                          </SubmitButton>
                         </form>
                       ) : (
                         <span className="muted">Protected</span>
@@ -124,7 +126,12 @@ export default async function TeamPage({
                 <option value="OWNER">Owner</option>
               </select>
             </div>
-            <button className="button button-primary button-block">Create account</button>
+            <SubmitButton
+              className="button button-primary button-block"
+              pendingLabel="Creating account…"
+            >
+              Create account
+            </SubmitButton>
           </form>
         </section>
       </div>

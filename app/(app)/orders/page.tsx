@@ -1,6 +1,7 @@
 import { and, count, desc, eq, ilike, or } from "drizzle-orm";
 import { ClipboardList, Plus, Search } from "lucide-react";
 import Link from "next/link";
+import { ClickableTableRow } from "@/components/clickable-table-row";
 import { StatusBadge } from "@/components/status-badge";
 import { requireShopUser } from "@/lib/auth";
 import { db } from "@/lib/db";
@@ -70,11 +71,9 @@ export default async function OrdersPage({
               </thead>
               <tbody>
                 {rows.map(({ order, itemCount }) => (
-                  <tr key={order.id}>
+                  <ClickableTableRow key={order.id} href={`/orders/${order.id}`}>
                     <td data-label="Order">
-                      <a className="table-link" href={`/orders/${order.id}`}>
-                        #{order.orderNumber}
-                      </a>
+                      <span className="table-link">#{order.orderNumber}</span>
                     </td>
                     <td data-label="Customer">
                       <strong>{order.customerName}</strong>
@@ -90,7 +89,7 @@ export default async function OrdersPage({
                       </td>
                     )}
                     <td data-label="Due date">{formatDate(order.dueDate)}</td>
-                  </tr>
+                  </ClickableTableRow>
                 ))}
               </tbody>
             </table>

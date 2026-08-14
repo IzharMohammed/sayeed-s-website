@@ -3,6 +3,7 @@ import { redirect } from "next/navigation";
 import Link from "next/link";
 import { logoutAction } from "@/app/actions/auth";
 import { Navigation } from "@/components/nav";
+import { SubmitButton } from "@/components/submit-button";
 import { ThemeToggle } from "@/components/theme-toggle";
 import { getCurrentUser } from "@/lib/auth";
 import { label } from "@/lib/constants";
@@ -19,12 +20,12 @@ export default async function AppLayout({ children }: { children: React.ReactNod
   return (
     <div className="app-shell">
       <aside className="sidebar">
-        <a href={home} className="brand-mark">
+        <Link href={home} className="brand-mark">
           <span className="brand-icon">
             <Hammer size={20} />
           </span>
           Karigar
-        </a>
+        </Link>
         <Navigation worker={worker} platformAdmin={platformAdmin} />
         <div className="sidebar-footer">
           <div className="user-block">
@@ -35,20 +36,23 @@ export default async function AppLayout({ children }: { children: React.ReactNod
             </div>
           </div>
           <form action={logoutAction}>
-            <button type="submit" className="button button-secondary button-small button-block">
+            <SubmitButton
+              className="button button-secondary button-small button-block"
+              pendingLabel="Signing out…"
+            >
               <LogOut size={15} /> Sign out
-            </button>
+            </SubmitButton>
           </form>
         </div>
       </aside>
       <main className="main">
         <header className="topbar">
-          <a href={home} className="mobile-logo brand-mark">
+          <Link href={home} className="mobile-logo brand-mark">
             <span className="brand-icon">
               <Hammer size={18} />
             </span>
             Karigar
-          </a>
+          </Link>
           <div className="topbar-actions">
             {!worker && !platformAdmin && (
               <Link href="/orders/new" className="button button-primary button-small">

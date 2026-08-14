@@ -2,6 +2,7 @@ import { asc, eq } from "drizzle-orm";
 import { ListChecks } from "lucide-react";
 import { updateDeliveryAction, updateStageAction } from "@/app/actions/orders";
 import { StatusBadge } from "@/components/status-badge";
+import { SubmitButton } from "@/components/submit-button";
 import { requireShopUser } from "@/lib/auth";
 import { DELIVERY_STATUSES, WORK_STATUSES, label } from "@/lib/constants";
 import { db } from "@/lib/db";
@@ -91,7 +92,12 @@ export default async function TasksPage() {
                         </option>
                       ))}
                     </select>
-                    <button className="button button-secondary button-small">Save</button>
+                    <SubmitButton
+                      className="button button-secondary button-small"
+                      pendingLabel="Saving…"
+                    >
+                      Save
+                    </SubmitButton>
                   </form>
                 ))}
                 <form action={updateDeliveryAction} className="stage-row">
@@ -109,7 +115,12 @@ export default async function TasksPage() {
                       </option>
                     ))}
                   </select>
-                  <button className="button button-secondary button-small">Save</button>
+                  <SubmitButton
+                    className="button button-secondary button-small"
+                    pendingLabel="Saving…"
+                  >
+                    Save
+                  </SubmitButton>
                 </form>
               </div>
             </article>

@@ -2,6 +2,7 @@ import { Hammer } from "lucide-react";
 import { redirect } from "next/navigation";
 import { loginAction } from "@/app/actions/auth";
 import { getCurrentUser } from "@/lib/auth";
+import { SubmitButton } from "@/components/submit-button";
 
 export const dynamic = "force-dynamic";
 
@@ -81,9 +82,9 @@ export default async function LoginPage({
               autoComplete="current-password"
             />
           </div>
-          <button className="button button-primary button-block" type="submit">
+          <SubmitButton className="button button-primary button-block" pendingLabel="Signing in…">
             Sign in
-          </button>
+          </SubmitButton>
         </form>
       </section>
     </main>

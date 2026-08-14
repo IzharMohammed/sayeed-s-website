@@ -1,6 +1,7 @@
 import { and, count, desc, eq, ne, sql } from "drizzle-orm";
 import { AlertCircle, ClipboardCheck, Clock3, IndianRupee, Plus } from "lucide-react";
 import Link from "next/link";
+import { ClickableTableRow } from "@/components/clickable-table-row";
 import { StatusBadge } from "@/components/status-badge";
 import { requireOwner } from "@/lib/auth";
 import { db } from "@/lib/db";
@@ -110,11 +111,9 @@ export default async function DashboardPage() {
               </thead>
               <tbody>
                 {recent.map((order) => (
-                  <tr key={order.id}>
+                  <ClickableTableRow key={order.id} href={`/orders/${order.id}`}>
                     <td data-label="Order">
-                      <a className="table-link" href={`/orders/${order.id}`}>
-                        #{order.orderNumber}
-                      </a>
+                      <span className="table-link">#{order.orderNumber}</span>
                     </td>
                     <td data-label="Customer">
                       <strong>{order.customerName}</strong>
@@ -127,7 +126,7 @@ export default async function DashboardPage() {
                     </td>
                     <td data-label="Due date">{formatDate(order.dueDate)}</td>
                     <td data-label="Amount">{formatMoney(order.totalAmount)}</td>
-                  </tr>
+                  </ClickableTableRow>
                 ))}
               </tbody>
             </table>

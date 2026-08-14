@@ -1,6 +1,14 @@
 "use client";
 
-import { ClipboardList, LayoutDashboard, ListChecks, Settings, Users } from "lucide-react";
+import {
+  ClipboardList,
+  LayoutDashboard,
+  ListChecks,
+  LoaderCircle,
+  Settings,
+  Users,
+} from "lucide-react";
+import Link, { useLinkStatus } from "next/link";
 import { usePathname } from "next/navigation";
 
 const ownerLinks = [
@@ -30,15 +38,21 @@ export function Navigation({
   return (
     <nav className={mobile ? "mobile-nav" : "nav"}>
       {links.map(({ href, label, icon: Icon }) => (
-        <a
+        <Link
           key={href}
           className={path === href || path.startsWith(`${href}/`) ? "nav-link active" : "nav-link"}
           href={href}
         >
           <Icon size={mobile ? 19 : 18} />
           <span>{label}</span>
-        </a>
+          <NavigationPending />
+        </Link>
       ))}
     </nav>
   );
+}
+
+function NavigationPending() {
+  const { pending } = useLinkStatus();
+  return pending ? <LoaderCircle className="spinner nav-spinner" size={14} /> : null;
 }

@@ -12,6 +12,7 @@ import {
 } from "@/app/actions/orders";
 import { ImageUploader } from "@/components/image-uploader";
 import { StatusBadge } from "@/components/status-badge";
+import { SubmitButton } from "@/components/submit-button";
 import { requireShopUser } from "@/lib/auth";
 import {
   DELIVERY_STATUSES,
@@ -91,9 +92,9 @@ export default async function OrderDetailPage({ params }: { params: Promise<{ id
         {user.role !== "WORKER" && (
           <form action={deleteOrderAction}>
             <input type="hidden" name="orderId" value={order.id} />
-            <button className="button button-danger button-small">
+            <SubmitButton className="button button-danger button-small" pendingLabel="Deleting…">
               <Trash2 size={15} /> Delete
-            </button>
+            </SubmitButton>
           </form>
         )}
       </header>
@@ -215,7 +216,9 @@ export default async function OrderDetailPage({ params }: { params: Promise<{ id
               </div>
             </div>
             <div className="form-actions">
-              <button className="button button-primary">Save order details</button>
+              <SubmitButton className="button button-primary" pendingLabel="Saving order…">
+                Save order details
+              </SubmitButton>
             </div>
           </form>
         </details>
@@ -316,7 +319,12 @@ export default async function OrderDetailPage({ params }: { params: Promise<{ id
                                 </option>
                               ))}
                             </select>
-                            <button className="button button-secondary button-small">Save</button>
+                            <SubmitButton
+                              className="button button-secondary button-small"
+                              pendingLabel="Saving…"
+                            >
+                              Save
+                            </SubmitButton>
                           </form>
                         </td>
                       </tr>
@@ -342,7 +350,12 @@ export default async function OrderDetailPage({ params }: { params: Promise<{ id
                               </option>
                             ))}
                           </select>
-                          <button className="button button-secondary button-small">Save</button>
+                          <SubmitButton
+                            className="button button-secondary button-small"
+                            pendingLabel="Saving…"
+                          >
+                            Save
+                          </SubmitButton>
                         </form>
                       </td>
                     </tr>

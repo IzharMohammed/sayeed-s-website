@@ -2,6 +2,7 @@ import { asc, isNotNull } from "drizzle-orm";
 import { Building2, Store, UserPlus, UsersRound } from "lucide-react";
 import { createShopAction } from "@/app/actions/admin";
 import { StatusBadge } from "@/components/status-badge";
+import { SubmitButton } from "@/components/submit-button";
 import { requirePlatformAdmin } from "@/lib/auth";
 import { db } from "@/lib/db";
 import { shops, users } from "@/lib/db/schema";
@@ -161,7 +162,12 @@ export default async function AdminPage({
               <input className="input" name="password" type="password" minLength={8} required />
               <span className="hint">Share this securely with the shop owner.</span>
             </div>
-            <button className="button button-primary button-block">Create shop access</button>
+            <SubmitButton
+              className="button button-primary button-block"
+              pendingLabel="Creating shop…"
+            >
+              Create shop access
+            </SubmitButton>
           </form>
         </section>
       </div>

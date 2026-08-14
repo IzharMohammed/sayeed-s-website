@@ -4,6 +4,7 @@ import { Plus, Trash2 } from "lucide-react";
 import Link from "next/link";
 import { useState } from "react";
 import { createOrderAction } from "@/app/actions/orders";
+import { SubmitButton } from "@/components/submit-button";
 import { MATERIALS, ORDER_STATUSES, PAYMENT_STATUSES, THICKNESSES, label } from "@/lib/constants";
 
 type Item = {
@@ -221,9 +222,9 @@ export function OrderForm({ nextOrderNumber, error }: { nextOrderNumber: number;
         <Link href="/orders" className="button button-secondary">
           Cancel
         </Link>
-        <button className="button button-primary" type="submit">
+        <SubmitButton className="button button-primary" pendingLabel="Creating order…">
           Create order
-        </button>
+        </SubmitButton>
       </div>
     </form>
   );

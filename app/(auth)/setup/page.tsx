@@ -4,6 +4,7 @@ import { redirect } from "next/navigation";
 import { setupAction } from "@/app/actions/auth";
 import { db } from "@/lib/db";
 import { users } from "@/lib/db/schema";
+import { SubmitButton } from "@/components/submit-button";
 
 export const dynamic = "force-dynamic";
 
@@ -87,9 +88,12 @@ export default async function SetupPage({
               autoComplete="new-password"
             />
           </div>
-          <button className="button button-primary button-block" type="submit">
+          <SubmitButton
+            className="button button-primary button-block"
+            pendingLabel="Creating administrator…"
+          >
             Create platform administrator
-          </button>
+          </SubmitButton>
         </form>
       </section>
     </main>

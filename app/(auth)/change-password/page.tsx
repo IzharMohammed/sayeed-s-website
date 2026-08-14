@@ -2,6 +2,7 @@ import { KeyRound } from "lucide-react";
 import { redirect } from "next/navigation";
 import { changePasswordAction } from "@/app/actions/auth";
 import { getCurrentUser } from "@/lib/auth";
+import { SubmitButton } from "@/components/submit-button";
 
 export const dynamic = "force-dynamic";
 
@@ -49,7 +50,12 @@ export default async function ChangePasswordPage({
             autoComplete="new-password"
           />
         </div>
-        <button className="button button-primary button-block">Save password</button>
+        <SubmitButton
+          className="button button-primary button-block"
+          pendingLabel="Saving password…"
+        >
+          Save password
+        </SubmitButton>
       </form>
     </main>
   );
