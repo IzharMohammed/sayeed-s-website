@@ -11,7 +11,7 @@ import {
   uuid,
 } from "drizzle-orm/pg-core";
 
-export const roleEnum = pgEnum("role", ["PLATFORM_ADMIN", "OWNER", "WORKER"]);
+export const roleEnum = pgEnum("role", ["OWNER", "WORKER"]);
 export const orderStatusEnum = pgEnum("order_status", ["CONFIRMED", "HOLD", "CANCELLED"]);
 export const paymentStatusEnum = pgEnum("payment_status", [
   "ADVANCE_RECEIVED",
@@ -40,7 +40,9 @@ export const users = pgTable(
   "users",
   {
     id: uuid("id").defaultRandom().primaryKey(),
-    shopId: uuid("shop_id").references(() => shops.id, { onDelete: "cascade" }),
+    shopId: uuid("shop_id")
+      .references(() => shops.id, { onDelete: "cascade" })
+      .notNull(),
     name: text("name").notNull(),
     username: text("username").notNull(),
     passwordHash: text("password_hash").notNull(),
@@ -52,7 +54,7 @@ export const users = pgTable(
     createdAt: timestamp("created_at", { withTimezone: true }).defaultNow().notNull(),
   },
   (table) => [
-    uniqueIndex("users_shop_username_unique").on(table.shopId, table.username),
+    uniqueIndex("users_username_unique").on(table.username),
     index("users_shop_idx").on(table.shopId),
   ],
 );

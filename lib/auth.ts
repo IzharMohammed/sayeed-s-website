@@ -65,14 +65,8 @@ export async function requireOwner() {
 
 export async function requireShopUser() {
   const user = await requireUser();
-  if (!user.shopId || user.role === "PLATFORM_ADMIN") throw new Error("FORBIDDEN");
+  if (!user.shopId) throw new Error("FORBIDDEN");
   return user as AppUser & { shopId: string };
-}
-
-export async function requirePlatformAdmin() {
-  const user = await requireUser();
-  if (user.role !== "PLATFORM_ADMIN") throw new Error("FORBIDDEN");
-  return user;
 }
 
 export function secureTokenEquals(received: string, expected: string) {

@@ -24,10 +24,6 @@ export default async function SettingsPage() {
               <label>Shop name</label>
               <input className="input" value={shop.name} disabled />
             </div>
-            <div className="field">
-              <label>Shop login code</label>
-              <input className="input" value={shop.code} disabled />
-            </div>
           </div>
         </div>
         <div className="form-section">
@@ -36,8 +32,8 @@ export default async function SettingsPage() {
             Security
           </h2>
           <p className="muted">
-            Your Primary Owner account cannot be disabled. All account and work-status changes are
-            recorded in the activity log.
+            You cannot disable your own account, and the workshop must always have at least one
+            active Owner. Account and work-status changes are recorded in the activity log.
           </p>
         </div>
         <div className="form-section">

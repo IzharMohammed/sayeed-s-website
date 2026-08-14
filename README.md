@@ -15,14 +15,14 @@ It replaces a paper register or spreadsheet with simple owner and worker screens
 
 ## Access model
 
-| Role                   | Access                                                                                 |
-| ---------------------- | -------------------------------------------------------------------------------------- |
-| Platform Administrator | Creates customer shops and gives the first Owner access                                |
-| Owner                  | Full access inside their shop, including orders, payments, images, Owners, and Workers |
-| Worker                 | Views shop orders and updates production or delivery status                            |
+| Role   | Access                                                                 |
+| ------ | ---------------------------------------------------------------------- |
+| Owner  | Full access to orders, payments, images, settings, Owners, and Workers |
+| Worker | Views orders and updates production or delivery status                 |
 
-Every shop is isolated by `shop_id`. An Owner cannot access another shop. An Owner can add more
-Owners or Workers, but cannot disable their own account or the final active Owner.
+The application is designed for one workshop. It retains one internal workspace ID for clean data
+ownership, but users never need to enter a shop code. An Owner can add more Owners or Workers, but
+cannot disable their own account or the final active Owner.
 
 ## 1. Create the PostgreSQL database with Neon
 
@@ -56,23 +56,11 @@ pnpm dev
 ```
 
 Open [http://localhost:3000/setup](http://localhost:3000/setup). Enter the
-`INITIAL_SETUP_TOKEN` and create your Platform Administrator username and password. This setup page
-automatically closes permanently after the first account is created.
+`INITIAL_SETUP_TOKEN`, workshop name, and first Owner details. This setup page automatically closes
+permanently after the first account is created.
 
-Platform Administrator login:
-
-```text
-Shop code: ADMIN
-Username: the username created at /setup
-Password: the password created at /setup
-```
-
-From `/admin`, create a customer shop, its shop code, and its first Owner. That Owner signs in using
-the shop code and can create more Owners and Workers.
-
-The Platform Administrator should remain your private account. Do not give it to a customer. Give
-the customer the shop code, Owner username, and temporary password created on `/admin`; the Owner
-must choose a new password on first login.
+The Owner signs in using only their username and password. From Team, they can create more Owners
+or Workers. New team members receive a temporary password and must choose a new one on first login.
 
 ## Install on a phone
 
@@ -130,7 +118,7 @@ pnpm db:migrate    # apply pending PostgreSQL migrations
 1. Push the repository to GitHub and import it into Vercel.
 2. Add all production environment variables in Vercel Project Settings.
 3. Run `pnpm db:migrate` once against the production `DATABASE_URL`.
-4. Deploy, visit `/setup`, and create the Platform Administrator.
+4. Deploy, visit `/setup`, and create the first Owner.
 5. Keep `INITIAL_SETUP_TOKEN` private. It cannot be reused after setup.
 
 Hosting and database credentials must never be committed to Git. `.env` and `.env.local` are

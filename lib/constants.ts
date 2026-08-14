@@ -44,7 +44,6 @@ export const LABELS: Record<string, string> = {
   COMPLETED: "Completed",
   PENDING: "Pending",
   DELIVERED: "Delivered",
-  PLATFORM_ADMIN: "Platform admin",
   OWNER: "Owner",
   WORKER: "Worker",
 };

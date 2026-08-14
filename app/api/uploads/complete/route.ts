@@ -20,7 +20,7 @@ const schema = z.object({
 export async function POST(request: Request) {
   const currentUser = await getCurrentUser();
   if (!currentUser) return NextResponse.json({ error: "Unauthenticated" }, { status: 401 });
-  if (!currentUser.shopId || currentUser.role === "PLATFORM_ADMIN") {
+  if (!currentUser.shopId) {
     return NextResponse.json({ error: "Upload not allowed" }, { status: 403 });
   }
   const user = { ...currentUser, shopId: currentUser.shopId };

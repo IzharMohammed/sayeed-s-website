@@ -1,7 +1,7 @@
 "use server";
 
 import bcrypt from "bcryptjs";
-import { and, eq } from "drizzle-orm";
+import { eq } from "drizzle-orm";
 import { redirect } from "next/navigation";
 import { z } from "zod";
 import { createSession, destroySession, requireUser, secureTokenEquals } from "@/lib/auth";
@@ -10,7 +10,6 @@ import { shops, users } from "@/lib/db/schema";
 import { normalizeUsername } from "@/lib/format";
 
 const loginSchema = z.object({
-  shopCode: z.string().trim().min(2).max(30),
   username: z.string().trim().min(3).max(30),
   password: z.string().min(8).max(100),
 });
@@ -18,43 +17,25 @@ const loginSchema = z.object({
 export async function loginAction(formData: FormData) {
   const parsed = loginSchema.safeParse(Object.fromEntries(formData));
   if (!parsed.success) redirect("/login?error=Please+check+your+login+details");
-  const shopCode = parsed.data.shopCode.trim().toUpperCase();
   const username = normalizeUsername(parsed.data.username);
-  const result =
-    shopCode === "ADMIN"
-      ? await db
-          .select({ user: users })
-          .from(users)
-          .where(
-            and(
-              eq(users.role, "PLATFORM_ADMIN"),
-              eq(users.username, username),
-              eq(users.active, true),
-            ),
-          )
-          .limit(1)
-      : await db
-          .select({ user: users })
-          .from(users)
-          .innerJoin(shops, eq(users.shopId, shops.id))
-          .where(
-            and(eq(shops.code, shopCode), eq(users.username, username), eq(users.active, true)),
-          )
-          .limit(1);
+  const result = await db
+    .select({ user: users })
+    .from(users)
+    .where(eq(users.username, username))
+    .limit(1);
   const user = result[0]?.user;
-  if (!user || !(await bcrypt.compare(parsed.data.password, user.passwordHash))) {
-    redirect("/login?error=Incorrect+shop+code,+username+or+password");
+  if (!user?.active || !(await bcrypt.compare(parsed.data.password, user.passwordHash))) {
+    redirect("/login?error=Incorrect+username+or+password");
   }
   await db.update(users).set({ lastLoginAt: new Date() }).where(eq(users.id, user.id));
   await createSession(user.id);
   if (user.mustChangePassword) redirect("/change-password");
-  redirect(
-    user.role === "PLATFORM_ADMIN" ? "/admin" : user.role === "WORKER" ? "/tasks" : "/dashboard",
-  );
+  redirect(user.role === "WORKER" ? "/tasks" : "/dashboard");
 }
 
 const setupSchema = z.object({
   token: z.string().min(1),
+  shopName: z.string().trim().min(2).max(80),
   name: z.string().trim().min(2).max(80),
   username: z
     .string()
@@ -79,19 +60,24 @@ export async function setupAction(formData: FormData) {
   if (existing.length) redirect("/login?error=Initial+setup+has+already+been+completed");
   const passwordHash = await bcrypt.hash(parsed.data.password, 12);
   const userId = await db.transaction(async (tx) => {
+    const [shop] = await tx
+      .insert(shops)
+      .values({ name: parsed.data.shopName, code: "WORKSHOP", setupComplete: true })
+      .returning({ id: shops.id });
     const [user] = await tx
       .insert(users)
       .values({
+        shopId: shop.id,
         name: parsed.data.name,
         username: normalizeUsername(parsed.data.username),
         passwordHash,
-        role: "PLATFORM_ADMIN",
+        role: "OWNER",
       })
       .returning({ id: users.id });
     return user.id;
   });
   await createSession(userId);
-  redirect("/admin");
+  redirect("/dashboard");
 }
 
 export async function logoutAction() {

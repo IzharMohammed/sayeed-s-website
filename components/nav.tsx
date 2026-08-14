@@ -22,19 +22,15 @@ const workerLinks = [
   { href: "/tasks", label: "My work", icon: ListChecks },
   { href: "/orders", label: "Orders", icon: ClipboardList },
 ];
-const adminLinks = [{ href: "/admin", label: "Shops", icon: Users }];
-
 export function Navigation({
   worker = false,
-  platformAdmin = false,
   mobile = false,
 }: {
   worker?: boolean;
-  platformAdmin?: boolean;
   mobile?: boolean;
 }) {
   const path = usePathname();
-  const links = platformAdmin ? adminLinks : worker ? workerLinks : ownerLinks;
+  const links = worker ? workerLinks : ownerLinks;
   return (
     <nav className={mobile ? "mobile-nav" : "nav"}>
       {links.map(({ href, label, icon: Icon }) => (

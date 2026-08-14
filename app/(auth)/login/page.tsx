@@ -12,10 +12,7 @@ export default async function LoginPage({
   searchParams: Promise<{ error?: string }>;
 }) {
   const user = await getCurrentUser();
-  if (user)
-    redirect(
-      user.role === "PLATFORM_ADMIN" ? "/admin" : user.role === "WORKER" ? "/tasks" : "/dashboard",
-    );
+  if (user) redirect(user.role === "WORKER" ? "/tasks" : "/dashboard");
   const { error } = await searchParams;
   return (
     <main className="auth-shell">
@@ -45,20 +42,8 @@ export default async function LoginPage({
         <form action={loginAction} className="auth-form">
           <div className="eyebrow">Welcome back</div>
           <h2>Sign in to your shop</h2>
-          <p>Use the details given by your shop owner.</p>
+          <p>Use the username and password given by your shop owner.</p>
           {error && <div className="error-box">{error}</div>}
-          <div className="field">
-            <label htmlFor="shopCode">Shop code</label>
-            <input
-              className="input"
-              id="shopCode"
-              name="shopCode"
-              placeholder="Example: KHALID01"
-              required
-              autoCapitalize="characters"
-            />
-            <span className="hint">Platform administrator uses ADMIN.</span>
-          </div>
           <div className="field">
             <label htmlFor="username">Username</label>
             <input

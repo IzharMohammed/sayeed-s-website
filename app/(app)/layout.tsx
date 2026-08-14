@@ -15,9 +15,8 @@ export default async function AppLayout({ children }: { children: React.ReactNod
   const user = await getCurrentUser();
   if (!user) redirect("/login");
   if (user.mustChangePassword) redirect("/change-password");
-  const platformAdmin = user.role === "PLATFORM_ADMIN";
   const worker = user.role === "WORKER";
-  const home = platformAdmin ? "/admin" : worker ? "/tasks" : "/dashboard";
+  const home = worker ? "/tasks" : "/dashboard";
   return (
     <div className="app-shell">
       <aside className="sidebar">
@@ -27,7 +26,7 @@ export default async function AppLayout({ children }: { children: React.ReactNod
           </span>
           Karigar
         </Link>
-        <Navigation worker={worker} platformAdmin={platformAdmin} />
+        <Navigation worker={worker} />
         <div className="sidebar-footer">
           <div className="user-block">
             <span className="avatar">{user.name.charAt(0).toUpperCase()}</span>
@@ -56,7 +55,7 @@ export default async function AppLayout({ children }: { children: React.ReactNod
           </Link>
           <div className="topbar-actions">
             <InstallAppButton />
-            {!worker && !platformAdmin && (
+            {!worker && (
               <Link href="/orders/new" className="button button-primary button-small">
                 <Plus size={16} /> New order
               </Link>
@@ -66,7 +65,7 @@ export default async function AppLayout({ children }: { children: React.ReactNod
         </header>
         <div className="content">{children}</div>
       </main>
-      <Navigation worker={worker} platformAdmin={platformAdmin} mobile />
+      <Navigation worker={worker} mobile />
     </div>
   );
 }

@@ -29,12 +29,9 @@ export default async function SetupPage({
           <h1>
             Let’s set up
             <br />
-            your platform.
+            your workshop.
           </h1>
-          <p>
-            This protected page creates your Platform Administrator. It automatically closes after
-            setup.
-          </p>
+          <p>This protected page creates the first Owner. It automatically closes after setup.</p>
         </div>
         <small>
           <ShieldCheck size={15} /> One-time secure setup
@@ -43,12 +40,16 @@ export default async function SetupPage({
       <section className="auth-panel">
         <form action={setupAction} className="auth-form">
           <div className="eyebrow">First-time setup</div>
-          <h2>Create Platform Admin</h2>
-          <p>You will create shops and give each shop owner access afterwards.</p>
+          <h2>Create the first Owner</h2>
+          <p>This account has full access and can add more Owners or Workers.</p>
           {error && <div className="error-box">{error}</div>}
           <div className="field">
             <label htmlFor="token">Private setup token</label>
             <input className="input" id="token" name="token" type="password" required />
+          </div>
+          <div className="field">
+            <label htmlFor="shopName">Workshop name</label>
+            <input className="input" id="shopName" name="shopName" required />
           </div>
           <div className="field">
             <label htmlFor="name">Your name</label>
@@ -90,9 +91,9 @@ export default async function SetupPage({
           </div>
           <SubmitButton
             className="button button-primary button-block"
-            pendingLabel="Creating administrator…"
+            pendingLabel="Creating owner…"
           >
-            Create platform administrator
+            Create Owner account
           </SubmitButton>
         </form>
       </section>
